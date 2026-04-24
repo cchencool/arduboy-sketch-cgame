@@ -2,7 +2,6 @@
 #if !defined(Func_settings_hpp)
 #define Func_settings_hpp
 
-#include <ArduinoSTL.h>
 #include <avr/pgmspace.h>
 #include "Arduboy2.h"
 #include "arduino.h"
@@ -12,9 +11,6 @@ extern Btn_ctrl *btn_ctrl;
 extern Arduboy2 *arduboy;
 
 // for func counter.
-PROGMEM const String settings_str_title = "settings *";
-PROGMEM const String settings_str_snaker_initial_length = "snaker_length: ";
-PROGMEM const String settings_str_saved = "settings saved!";
 
 class Func_settings: public Base_func
 {
@@ -34,16 +30,16 @@ class Func_settings: public Base_func
         this->draw_square();
 
         arduboy->setCursor(40, 10);
-        // arduboy->setCursor(35, 10);
-        arduboy->print(settings_str_title);
+        arduboy->print(F("settings *"));
 
         arduboy->setCursor(10, 30);
-        arduboy->print(settings_str_snaker_initial_length + String(this->snaker_initial_length));
+        arduboy->print(F("snaker_length: "));
+        arduboy->print(String(this->snaker_initial_length));
 
         if (btn_ctrl->a_click())
         {
             arduboy->setCursor(10, 40);
-            arduboy->print(settings_str_saved);   
+            arduboy->print(F("settings saved!"));
         }
 
     }

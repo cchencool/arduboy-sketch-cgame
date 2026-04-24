@@ -4,7 +4,6 @@
 #define Snaker_hpp
 
 #include <arduino.h>
-#include <ArduinoSTL.h>
 #include "Arduboy2.h"
 
 #define INITIAL_SNAKE_LENGTH 15 // when the length is large than 26/27, out of memory error.
@@ -24,7 +23,7 @@ enum Direction
     RIGHT
 };
 
-// 
+//
 struct Turn_Point
 {
     Point pt;
@@ -35,6 +34,53 @@ enum Status
 {
     ACTIVE,
     INACTIVE
+};
+
+// Minimal dynamic array replacing std::vector for memory-constrained AVR
+template<typename T>
+class Vec {
+    T* data;
+    uint8_t _size;
+    uint8_t capacity;
+
+public:
+    Vec() : data(NULL), _size(0), capacity(0) {}
+    ~Vec() { clear(); }
+
+    uint8_t size() const { return _size; }
+
+    void push_back(T item) {
+        if (_size >= capacity) {
+            uint8_t new_cap = capacity == 0 ? 4 : capacity * 2;
+            T* new_data = (T*)realloc(data, new_cap * sizeof(T));
+            if (new_data) {
+                data = new_data;
+                capacity = new_cap;
+            } else {
+                return;
+            }
+        }
+        data[_size++] = item;
+    }
+
+    T& operator[](uint8_t i) { return data[i]; }
+    const T& operator[](uint8_t i) const { return data[i]; }
+
+    void erase_first() {
+        if (_size > 0) {
+            for (uint8_t i = 0; i < _size - 1; i++) {
+                data[i] = data[i + 1];
+            }
+            _size--;
+        }
+    }
+
+    void clear() {
+        free(data);
+        data = NULL;
+        _size = 0;
+        capacity = 0;
+    }
 };
 
 class Snaker
@@ -51,7 +97,7 @@ class Snaker
     boolean init_body(uint8_t length);
 
     // for memory optimization. replace 'body_points'
-    std::vector<Turn_Point*> turning_points; // only store
+    Vec<Turn_Point*> turning_points; // only store
     Turn_Point* head;
     Turn_Point* tail;
 

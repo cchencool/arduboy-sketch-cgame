@@ -1,6 +1,5 @@
 
 #include <avr/pgmspace.h>
-#include <ArduinoSTL.h>
 #include "Arduboy2.h"
 #include "arduino.h"
 #include "Navigator.hpp"
@@ -18,7 +17,7 @@ Base_func *func_snake;    // = new Func_snake;
 Base_func *func_counter;  // = new Func_counter;
 Base_func *func_settings; // = new Func_settings;
 
-PROGMEM const String error_str = "error occur!";
+#define error_str F("error occur!")
 
 boolean is_error = false;
 

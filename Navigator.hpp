@@ -3,7 +3,6 @@
 #if !defined(Navigator_hpp)
 #define Navigator_hpp
 
-#include <ArduinoSTL.h>
 #include <avr/pgmspace.h>
 #include "Arduboy2.h"
 #include "Btn_ctrl.hpp"
@@ -22,10 +21,6 @@ extern Base_func *func_settings;
 extern boolean is_error;
 
 // for navigator.
-PROGMEM const String navigator_str = "Please choose: ";
-PROGMEM const String navigator_game_choice_a = "Press Up: snake.";
-// PROGMEM const String navigator_game_choice_b = "Press Dn: counter.";
-PROGMEM const String navigator_game_choice_c = "Press  A: settings.";
 
 enum Support_func
 {
@@ -67,16 +62,17 @@ class Navigator
         draw_square();
 
         arduboy->setCursor(STR_START_X + 15, 10);
-        arduboy->print(navigator_str);
+        arduboy->print(F("Please choose: "));
 
         arduboy->setCursor(STR_START_X, 30);
-        arduboy->print(navigator_game_choice_a + String(sizeof(Snaker)));
+        arduboy->print(F("Press Up: snake."));
+        arduboy->print(String(sizeof(Snaker)));
 
         // arduboy->setCursor(STR_START_X, 40);
         // arduboy->print(navigator_game_choice_b);
 
         arduboy->setCursor(STR_START_X, 40);//50);
-        arduboy->print(navigator_game_choice_c);
+        arduboy->print(F("Press  A: settings."));
 
         // game A - Func_snake.
         // if (btn_ctrl->down_click() && !has_made_choice)

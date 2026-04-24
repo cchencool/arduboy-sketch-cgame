@@ -9,7 +9,9 @@
 ## 构建与烧录
 
 - 在 Arduino IDE 中打开 `sketch_cgame.ino`
-- 依赖库：`Arduboy2`、`ArduinoSTL`
+- 依赖库：`Arduboy2`
+- 库路径：`~/Development/Arduino/libraries/`
+- `Snaker` 类使用自定义 `Vec<T>` 模板（替代 `std::vector`），避免 ArduinoSTL 的链接冲突和内存开销
 - 目标板：Arduboy（Leonardo 兼容）
 - 通过 Arduino IDE 经 USB 烧录
 
@@ -36,6 +38,7 @@
 
 - **延迟实例化**：功能对象（`Func_snake`、`Func_counter`、`Func_settings`）在用户选择时才创建，而非启动时。指针类型为全局 `Base_func*`，实际指向具体子类。
 - **头尾蛇体渲染**：`Snaker` 不将每个身体像素存入向量（内存消耗大），而是仅存储头、尾和转折点为 `Turn_Point` 结构体，然后在转折点之间绘制线段，大幅降低内存占用。
+- **自定义 `Vec` 容器**：项目使用 `Vec<T>` 模板（~30 行）替代 `std::vector`，提供 `size()/push_back()/operator[]/erase_first()/clear()` 等必要方法，避免 ArduinoSTL 的 `std::nothrow` 链接冲突。
 - **按键锁定模式**：`Btn_ctrl` 使用每个按键的锁定标志，将"按下→释放"检测为单次"点击"事件，防止按住时重复触发。
 - **内存约束**：`INITIAL_SNAKE_LENGTH` 设为 15，因为长度超过 26/27 会导致 2.5KB SRAM 设备内存溢出。`Snaker.cpp` 中大量注释掉的向量实现记录了从逐像素存储到当前转折点方案的演进过程。
 

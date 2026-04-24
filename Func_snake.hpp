@@ -14,8 +14,6 @@ extern Arduboy2 *arduboy;
 extern Btn_ctrl *btn_ctrl;
 extern Base_func *func_settings;
 
-PROGMEM const String pause_str = "Pause";
-PROGMEM const String find_egg_str = "Found Egg!";
 
 uint8_t time_counter = 0;
 
@@ -98,13 +96,13 @@ class Func_snake : public Base_func
         else
         {
             arduboy->setCursor(95, 55);
-            arduboy->print(pause_str);
+            arduboy->print(F("Pause"));
         }
 
         if (snaker->if_find_egg())
         {
             arduboy->setCursor(0, 0);
-            arduboy->print(find_egg_str);
+            arduboy->print(F("Found Egg!"));
             if (++time_counter % 15 == 0)
             {
                 snaker->reset_egg();

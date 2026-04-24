@@ -2,7 +2,7 @@
 #if !defined(Func_counter_hpp)
 #define Func_counter_hpp
 
-#include <ArduinoSTL.h>
+#include <Arduino.h>
 #include "Arduboy2.h"
 #include "arduino.h"
 #include "Base_func.hpp"
@@ -11,7 +11,6 @@ extern Btn_ctrl *btn_ctrl;
 extern Arduboy2 *arduboy;
 
 // for func counter.
-PROGMEM const String hello_str = "hello, my darling.";
 
 class Func_counter: public Base_func
 {
@@ -58,7 +57,7 @@ class Func_counter: public Base_func
         this->check_lock_flag();
 
         arduboy->setCursor(10, 20);
-        arduboy->print(hello_str);
+        arduboy->print(F("hello, my darling."));
 
         arduboy->setCursor(10, 30);
         arduboy->print(String("count:  ") + String(this->get_count()));

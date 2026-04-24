@@ -456,7 +456,7 @@ boolean Snaker::move(uint8_t step)
                 // set the first turning point as tail.
                 delete this->tail;
                 this->tail = this->turning_points[0];
-                this->turning_points.erase(this->turning_points.begin());
+                this->turning_points.erase_first();
             }
             // move tail
             switch (this->tail->drc)
