@@ -52,6 +52,7 @@ class Func_settings: public Base_func
      *
      * 显示设置界面边框、标题、当前配置值。
      * 按 A 键显示「设置已保存」提示。
+     * 按右键进入小兔子跳跃游戏。
      */
     void play()
     {
@@ -72,6 +73,13 @@ class Func_settings: public Base_func
             arduboy->setCursor(10, 40);
             arduboy->print(F("settings saved!"));
         }
+
+        // 显示小兔子游戏入口提示
+        arduboy->setCursor(10, 50);
+        arduboy->print(F("Right: Bunny Jump"));
+
+        // 注意：按右键进入小兔子游戏的逻辑在 sketch_cgame.ino 中处理
+        // 这里只显示提示
     }
 
     /**

@@ -14,6 +14,7 @@
 #include "Func_snake.hpp"
 #include "Func_counter.hpp"
 #include "Func_settings.hpp"
+#include "Func_bunny.hpp"
 
 // ==================== 全局对象 ====================
 
@@ -30,6 +31,7 @@ Navigator *navigator = new Navigator;
 Base_func *func_snake;    // 贪吃蛇
 Base_func *func_counter;  // 计数器
 Base_func *func_settings; // 设置
+Base_func *func_bunny;    // 小兔子跳跃游戏
 
 /** 错误提示信息（使用 F() 宏从 flash 读取，节省 RAM） */
 #define error_str F("error occur!")
@@ -97,6 +99,16 @@ void loop()
       else if (navigator->get_func_choice() == SETTINGS)
       {
         navigator->play_settings();
+
+        // 在设置页面中，按右键进入小兔子游戏
+        if (btn_ctrl->right_click())
+        {
+          navigator->set_func_choice(BUNNY);
+        }
+      }
+      else if (navigator->get_func_choice() == BUNNY)
+      {
+        navigator->play_bunny();
       }
     }
   }
