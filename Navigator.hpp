@@ -112,14 +112,25 @@ class Navigator
         arduboy->print(F("Press Up: snake."));
         arduboy->print(String(sizeof(Snaker)));
 
-        // 选项 C：设置
+        // 选项 B：小兔子跳跃游戏
         arduboy->setCursor(STR_START_X, 40);
+        arduboy->print(F("Press  D: bunny."));
+
+        // 选项 C：设置
+        arduboy->setCursor(STR_START_X, 50);
         arduboy->print(F("Press  A: settings."));
 
         // 检测上键选择贪吃蛇
         if (btn_ctrl->up_click() && !has_made_choice)
         {
             func_choice = SNAKE;
+            has_made_choice = true;
+        }
+
+        // 检测右键选择小兔子跳跃游戏
+        if (btn_ctrl->right_click() && !has_made_choice)
+        {
+            func_choice = BUNNY;
             has_made_choice = true;
         }
 

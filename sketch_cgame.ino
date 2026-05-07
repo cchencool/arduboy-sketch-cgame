@@ -99,12 +99,6 @@ void loop()
       else if (navigator->get_func_choice() == SETTINGS)
       {
         navigator->play_settings();
-
-        // 在设置页面中，按右键进入小兔子游戏
-        if (btn_ctrl->right_click())
-        {
-          navigator->set_func_choice(BUNNY);
-        }
       }
       else if (navigator->get_func_choice() == BUNNY)
       {
