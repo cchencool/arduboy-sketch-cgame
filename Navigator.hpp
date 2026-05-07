@@ -17,6 +17,7 @@
 #include "Base_func.hpp"
 #include "Func_snake.hpp"
 #include "Func_counter.hpp"
+#include "Func_bunny.hpp"
 #include "Snaker.hpp"
 
 /** 菜单文字起始 X 坐标 */
@@ -29,6 +30,7 @@ extern Arduboy2 *arduboy;        // Arduboy2 实例
 extern Base_func *func_snake;    // 贪吃蛇模块指针
 extern Base_func *func_counter;  // 计数器模块指针
 extern Base_func *func_settings; // 设置模块指针
+extern Base_func *func_bunny;    // 小兔子游戏模块指针
 extern boolean is_error;         // 全局错误标志
 
 // ==================== 功能枚举 ====================
@@ -38,7 +40,8 @@ enum Support_func
 {
     SNAKE,    // 贪吃蛇
     COUNTER,  // 计数器（已隐藏）
-    SETTINGS  // 设置
+    SETTINGS, // 设置
+    BUNNY     // 小兔子跳跃游戏
 };
 
 /**
@@ -79,6 +82,12 @@ class Navigator
     Support_func get_func_choice()
     {
         return this->func_choice;
+    }
+
+    /** 设置当前选择的功能编号 */
+    void set_func_choice(Support_func choice)
+    {
+        this->func_choice = choice;
     }
 
     /**
@@ -189,6 +198,28 @@ class Navigator
     }
 
     /**
+     * play_bunny - 运行小兔子跳跃游戏模块
+     *
+     * 同 play_snake 的延迟实例化逻辑
+     */
+    void play_bunny()
+    {
+        if (func_bunny == NULL)
+        {
+            func_bunny = new Func_bunny();
+        }
+
+        if (func_bunny == NULL)
+        {
+            is_error = true;
+        }
+        else
+        {
+            func_bunny->play();
+        }
+    }
+
+    /**
      * stop_game - 停止当前功能模块并释放资源
      *
      * 根据当前选择的功能编号，调用对应模块的 exit() 方法。
@@ -220,6 +251,13 @@ class Navigator
                 if (func_settings != NULL)
                 {
                     func_settings->exit(&func_settings);
+                }
+            }
+            else if (func_choice == BUNNY)
+            {
+                if (func_bunny != NULL)
+                {
+                    func_bunny->exit(&func_bunny);
                 }
             }
         }
